@@ -37,6 +37,8 @@ namespace Lab2.PG6
                 Console.WriteLine("If you wish to exit program enter 'e' and press enter.");
                 input = Console.ReadLine();
 
+                //int input = Convert.ToInt32(Console.ReadLine());
+
                 switch (input)
                 {
                     case "1":
@@ -49,7 +51,7 @@ namespace Lab2.PG6
                         break;
                     case "3":
                         Console.WriteLine("Please enter ID");
-                        givenID =  Convert.ToInt32(Console.ReadLine());
+                        givenID =  Convert.ToInt32(Console.ReadLine()); //This where it crushes if it is a letter
                         cts.GetFilteredByID(givenID);
                         Console.WriteLine(cts.Result);
                         break;
@@ -60,7 +62,7 @@ namespace Lab2.PG6
                         Console.WriteLine(cts.Result);
                         break;
                     case "5":
-                        Console.WriteLine("Please enter ID");
+                        Console.WriteLine("Please enter ID");         //Same here is can take any charackter or number
                         givenID = Convert.ToInt32(Console.ReadLine());
                         Console.WriteLine("Please enter name of node");
                         nodeName = Console.ReadLine();
@@ -68,7 +70,7 @@ namespace Lab2.PG6
                         Console.WriteLine(cts.Result);
                         break;
                     case "6":
-                        Console.WriteLine("Please enter name of node");
+                        Console.WriteLine("Please enter name of node"); //crashes here. It can take 
                         nodeName = Console.ReadLine();
                         Console.WriteLine("Please enter value of node");
                         nodeValue = Console.ReadLine();
@@ -76,7 +78,7 @@ namespace Lab2.PG6
                         Console.WriteLine(cts.Result);
                         break;
                     case "r":
-                        PlainText(cts.Result); //Varfor skriver vi Result har???
+                        PlainText(cts.Result); //Varfor skriver vi pa det har sattet???
                         Console.WriteLine();
                         break;
                     case "c":
@@ -102,17 +104,14 @@ namespace Lab2.PG6
                     var Physician = from p in item.Descendants("Prescriber")
                                     select "Physician: " + p.Element("Name").Value;
 
-                    //var MoreThanTwoYears = from s in studenter.Descendants("Student")
-                    //                       where (int)s.Element("AntalArStuderat") > 2
-                    //                       select s.Element("ID");
-                    var Medicine = from p in item.Descendants("Name")
-                                   select p.Element("Name").Value;
+                    var Medicine = from p in item.Descendants("PrescribedMedicinalProduct")
+                                   select p.Element("ManufacturedProductId").Value + ", " + p.Element("UnstructuredDosageAdmin").Value;
 
-                    var Dosage = from p in item.Descendants("Name")
-                                 select p.Element("Name").Value;
-                    Console.WriteLine(Physician);
+                    var Dosage = from p in item.Descendants("PrescribedMedicinalProduct")
+                                 select p.Element("ProductId").Value + ", " + p.Element("UnstructuredDosageAdmin").Value;
+
                 }
-
+                Console.WriteLine(xe);
             }
 
             //clientobj.Close();
