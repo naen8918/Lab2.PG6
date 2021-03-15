@@ -76,7 +76,7 @@ namespace Lab2.PG6
                         Console.WriteLine(cts.Result);
                         break;
                     case "r":
-                        PlainText(cts.Result);
+                        PlainText(cts.Result); //Varfor skriver vi Result har???
                         Console.WriteLine();
                         break;
                     case "c":
@@ -96,10 +96,10 @@ namespace Lab2.PG6
 
                 foreach (var item in xe.Elements("Interchanges"))   //item = interchange
                 {
-                    var Patient = from p in item.Descendants("Name")
-                                  select p.Element("Name").Value;
+                    var Patient = from p in item.Descendants("SubjectOfCare")
+                                  select p.Element("FamilyName").Value + ", " + p.Element("FirstGivenName").Value;
 
-                    var Physician = from p in item.Descendants("Name")
+                    var Physician = from p in item.Descendants("Prescriber")
                                     select "Physician: " + p.Element("Name").Value;
 
                     //var MoreThanTwoYears = from s in studenter.Descendants("Student")
