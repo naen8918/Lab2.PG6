@@ -32,12 +32,12 @@ namespace Lab2.PG6
                 Console.WriteLine("Method 5: FilterByInterchangeIDAndNode. Please enter 5.");
                 Console.WriteLine("Method 6: FilterByInterchangeNodeValue. Please enter 6.");
                 Console.WriteLine();
-                Console.WriteLine("If you wish to present data in a more readable format enter 'r' and press enter.");
+                Console.WriteLine("If you wish to read data in plain text enter 'r' and press enter.");
                 Console.WriteLine("If you wish to clear data enter 'c' and press enter.");
                 Console.WriteLine("If you wish to exit program enter 'e' and press enter.");
                 input = Console.ReadLine();
 
-                //int input = Convert.ToInt32(Console.ReadLine());
+                //int input = Convert.ToInt32(Console.ReadLine()); 
 
                 switch (input)
                 {
@@ -56,7 +56,7 @@ namespace Lab2.PG6
                         Console.WriteLine(cts.Result);
                         break;
                     case "4":
-                        Console.WriteLine("Please enter name of node");
+                        Console.WriteLine("Please enter name of node"); //same here it doesnt crush if given charackter instead of node until later
                         nodeName = Console.ReadLine();
                         cts.GetFilteredByNode(nodeName);
                         Console.WriteLine(cts.Result);
@@ -78,7 +78,7 @@ namespace Lab2.PG6
                         Console.WriteLine(cts.Result);
                         break;
                     case "r":
-                        PlainText(cts.Result); //Varfor skriver vi pa det har sattet???
+                        PlainText(cts.Result); //Varfor skriver vi pa det har sattet??? 
                         Console.WriteLine();
                         break;
                     case "c":
@@ -92,26 +92,22 @@ namespace Lab2.PG6
             void PlainText(XElement xe) //kan vara flera interchanges
             {
 
-                //#region Uppgift 2.2
-                //var Names = from s in studenter.Descendants("Student")
-                //            select s.Element("Efternamn").Value + ", " + s.Element("Fornamn").Value;
-
                 foreach (var item in xe.Elements("Interchanges"))   //item = interchange
                 {
-                    var Patient = from p in item.Descendants("SubjectOfCare")
-                                  select p.Element("FamilyName").Value + ", " + p.Element("FirstGivenName").Value;
+                    var Patient = from p in item.Descendants("SubjectOfCare")    //node "SubjectOfCare" = Patient
+                                  select p.Element("FamilyName").Value + ", " + p.Element("FirstGivenName").Value; //star sa i xml filen
 
-                    var Physician = from p in item.Descendants("Prescriber")
+                    var Physician = from p in item.Descendants("Prescriber")    // node "Prescriber" = Physician 
                                     select "Physician: " + p.Element("Name").Value;
 
-                    var Medicine = from p in item.Descendants("PrescribedMedicinalProduct")
+                    var Medicine = from p in item.Descendants("PrescribedMedicinalProduct")  // node "PrescribedMedicinalProduct" = Medicine ?? maybe
                                    select p.Element("ManufacturedProductId").Value + ", " + p.Element("UnstructuredDosageAdmin").Value;
 
-                    var Dosage = from p in item.Descendants("PrescribedMedicinalProduct")
+                    var Dosage = from p in item.Descendants("PrescribedMedicinalProduct")    // <- same node as above that dosage belongs to in xml file
                                  select p.Element("ProductId").Value + ", " + p.Element("UnstructuredDosageAdmin").Value;
-
+                    Console.WriteLine(Physician);
                 }
-                Console.WriteLine(xe);
+
             }
 
             //clientobj.Close();
