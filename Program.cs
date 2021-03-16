@@ -32,9 +32,9 @@ namespace Lab2.PG6
                 Console.WriteLine("Method 5: FilterByInterchangeIDAndNode. Please enter 5.");
                 Console.WriteLine("Method 6: FilterByInterchangeNodeValue. Please enter 6.");
                 Console.WriteLine();
-                Console.WriteLine("If you wish to present data in a more readable format enter 'r' and press enter.");
-                Console.WriteLine("If you wish to clear data enter 'c' and press enter.");
-                Console.WriteLine("If you wish to exit program enter 'e' and press enter.");
+                Console.WriteLine("If you wish to read data in plain text enter 'r' and press enter.");
+                Console.WriteLine("If you wish to clear data enter 'c' and press enter."); 
+                Console.WriteLine("If you wish to exit program enter 'e' and press enter."); 
                 Console.WriteLine();
                 input = Console.ReadLine();
 
@@ -150,14 +150,14 @@ namespace Lab2.PG6
                         }
                         break;
                     case "6":
-                        Console.WriteLine("Please enter name of node");
+                        Console.WriteLine("Please enter name of node.");
                         nodeName = Console.ReadLine();
-                        Console.WriteLine("Please enter value of node");
+                        Console.WriteLine("Please enter value of node.");
                         nodeValue = Console.ReadLine();
                         if (checkIsInt(nodeName) == true)
                         {
                             Console.WriteLine();
-                            Console.WriteLine("Invalid input, please try again");
+                            Console.WriteLine("Invalid input, please try again.");
                             break;
                         }
                         cts.GetFilteredByNodeValue(nodeName, nodeValue);
@@ -222,7 +222,7 @@ namespace Lab2.PG6
                         }
                         else
                         {
-                            Console.WriteLine("Dosage: No Dosage found");
+                            Console.WriteLine("Dosage: No Dosage found.");
                         }
                     }
                 }
