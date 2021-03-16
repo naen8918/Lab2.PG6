@@ -12,8 +12,8 @@ using Newtonsoft.Json;
 namespace WebService
 {
     /// <summary>
-    /// The Service1 class connects to the API and converts the Json files to XElements
-    /// Contains methods for handeling the XElements
+    /// The Service1 class connects to the API and converts the JSON files to XElements
+    /// It contains methods for handeling the XElements
     /// </summary>
     public class Service1 : IService1
     {
@@ -21,7 +21,7 @@ namespace WebService
         static XElement _interchanges;
         public Service1()
         {
-            //Connects to the API and converts the collected data from json to XElements.
+            //Connects to the API and converts the collected data from JSON to XElements.
             using (WebClient webClient = new WebClient())
             {
                 string jsonTestString = webClient.DownloadString(
@@ -34,7 +34,7 @@ namespace WebService
             }
         }
         /// <summary>
-        ///  Gets all intercahnges from the XElement _testData
+        /// The method gets all intercahnges from the XElement _testData
         /// </summary>
         /// <returns>All interchanges</returns>
         public XElement GetTestData()
@@ -49,7 +49,7 @@ namespace WebService
             }
         }
         /// <summary>
-        /// Gets all intercahnges from the XElement _interchanges
+        /// The method gets all intercahnges from the XElement _interchanges
         /// </summary>
         /// <returns>All interchanges</returns>
         public XElement GetAllInterchanges()
@@ -64,7 +64,7 @@ namespace WebService
             }
         }
         /// <summary>
-        /// Gets all interchanges who matches the given ID.
+        /// The method gets all interchanges that matches the given ID.
         /// </summary>
         /// <param name="id"></param>
         /// <returns>All interchanges which contain the given ID</returns>
@@ -86,7 +86,7 @@ namespace WebService
             }
         }
         /// <summary>
-        /// Finds the node which matches the input node name
+        /// This method finds the node that matches the input node name
         /// </summary>
         /// <param name="node"></param>
         /// <returns>XElement containing matching nodes and their value</returns>
@@ -111,7 +111,7 @@ namespace WebService
         /// </summary>
         /// <param name="id"></param>
         /// <param name="node"></param>
-        /// <returns>A XElement containing the node and it's node value. </returns>
+        /// <returns> XElement containing the node and it's node value. </returns>
         public XElement FilterByInterchangeIDAndNode(int id, string node)
         {
             try
@@ -129,11 +129,11 @@ namespace WebService
             }
         }
         /// <summary>
-        /// Gets the interchanges which contains the input node with the same node value. 
+        /// the method gets the interchanges that contains the input node with the same node value. 
         /// </summary>
         /// <param name="node"></param>
         /// <param name="value"></param>
-        /// <returns>The iterchanges which contain <node>value</node> as child node. </returns>
+        /// <returns>The iterchanges which contains <node>value</node> as a child node. </returns>
         public XElement FilterByInterchangeNodeValue(string node, string value)
         {
             try

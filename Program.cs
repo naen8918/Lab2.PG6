@@ -7,7 +7,6 @@ using System.Xml.Linq;
 
 namespace Lab2.PG6
 {
-    //hej
     class Program
     {
         static int givenID;
@@ -18,9 +17,14 @@ namespace Lab2.PG6
 
         static void Main(string[] args)
         {
+            /// <summary>
+            /// Initializes a new instance of the CommunicationToServer class.
+            /// </summary>
             CommunicationToServer cts = new CommunicationToServer();
 
-            //The menu will continue to print in the console until the user enters "e" for exsit.
+            /// <summary>
+            /// This is the iterative menu that will continue to print in the console until the user enters "e" for exit.
+            /// </summary>
             while (input != "e")
             {
                 Console.WriteLine();
@@ -39,10 +43,16 @@ namespace Lab2.PG6
                 Console.WriteLine();
                 input = Console.ReadLine();
 
-                //Depending on the given input different methods will be called using an object called cts of the CommunicationToServer class   
-                //The cts object is also used to access the varible Result which contains the result from each method.
-                //For case/method 1,2,3 and 6 the user is given the option to reformat the output which is done by calling the the PlainText method.
-                //The input is checked to make sure valid input has been given.
+                /// <summary>
+                /// The iterative menu with different methods.
+                /// </summary>
+                /// <remarks>
+                /// Depending on the given input different methods will be invoked using an object called cts of the CommunicationToServer class   
+                /// The cts object is also used to access the variable Result which contains the result from each method.
+                /// For case/method 1,2,3 and 6 the user is given the option to reformat the output which is done by calling the PlainText method.
+                /// The input is checked to make sure valid input has been given.
+                /// </remarks>
+
                 switch (input)
                 {
                     case "1":
@@ -193,8 +203,8 @@ namespace Lab2.PG6
                 }
             }
             ///summary
-            ///Takes an XElement, the "Result", and prints the node values for FirstGivenName,FamilyName, Name, ProductId and UnstructuredDosageAdmin.
-            ///The node values are prined in the console in each filed Patient, Physician, Medicine and Dosage.
+            ///The method that prints out all latest result from one of several interchanges in plain text.
+            ///The method identifies values to present Patient, Physician, Medicine and Dosage for the user.
             ///</summary>
             void PlainText(XElement xe)
             {
@@ -233,8 +243,8 @@ namespace Lab2.PG6
                 }
             }
             ///<summary>
-            ///Takes a string as input, the input given by the user and checks whether it's an int.
-            ///The method is used to check if user have given and int as input even though the program asked for a string, for example node name.
+            ///Takes a string as input, the input given by the user and checks whether it's an integer.
+            ///The method is used to check if user have given and integer as an input even though the program asked for a string, for example node name.
             ///</summary>
             /// <returns>A bool, true or false.</returns>
             bool checkIsInt(string input)

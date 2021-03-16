@@ -28,7 +28,7 @@ namespace Lab2.PG6
         }
         ServiceReference.Service1Client clientobj = new ServiceReference.Service1Client();
         /// <summary>
-        /// Through clientobj each methods return value is assigned to "Result" which will be used in the Program.
+        /// Through clientobj each method returns value that is assigned to "Result" and which will be used in the Program.
         /// </summary>
         public void GetTestData()
         {
