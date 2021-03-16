@@ -216,7 +216,14 @@ namespace Lab2.PG6
                                       from i in item.Descendants("UnstructuredDosageAdmin")
                                       select i.Value);
 
-                        Console.WriteLine("Dosage: " + allDosage.Value);
+                        if (item.Descendants("UnstructuredDosageAdmin").FirstOrDefault() != null)
+                        {
+                            Console.WriteLine("Dosage: " + allDosage.Value);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Dosage: No Dosage found");
+                        }
                     }
                 }
                 catch (Exception ex)
