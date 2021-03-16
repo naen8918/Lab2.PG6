@@ -9,32 +9,34 @@ using System.Xml.Linq;
 using System.Net;
 using Newtonsoft.Json;
 
-
 namespace WebService
 {
+    /// <summary>
+    /// The Service1 class connects to the API and converts the Json files to XElements
+    /// Contains methods for handeling the XElements
+    /// </summary>
     public class Service1 : IService1
     {
         static XElement _testData;
         static XElement _interchanges;
         public Service1()
         {
-
-            using (WebClient webClient = new WebClient())   //Kopplar denna till API
+            //Connects to the API and converts the collected data from json to XElements.
+            using (WebClient webClient = new WebClient())
             {
-
-
                 string jsonTestString = webClient.DownloadString(
                 Encoding.UTF8.GetString(Convert.FromBase64String("aHR0cDovL3ByaXZhdC5iYWhuaG9mLnNlL3diNzE0ODI5L2pzb24vdGVzdERhdGEuanNvbg==")));
                 _testData = JsonConvert.DeserializeObject<XElement>(jsonTestString);
-                //testData är den XML fil som vi ser på studentportalen
-                //interchanges innehåller liknade data men mycket mer, använd testData XML från studentportalen för att förstå strukturen, noder m.m. i interchanges
-
 
                 string jsonIscString = webClient.DownloadString(
                 Encoding.UTF8.GetString(Convert.FromBase64String("aHR0cDovL3ByaXZhdC5iYWhuaG9mLnNlL3diNzE0ODI5L2pzb24vaWNzLmpzb24=")));
                 _interchanges = JsonConvert.DeserializeObject<XElement>(jsonIscString);
             }
         }
+        /// <summary>
+        ///  Gets all intercahnges from the XElement _testData
+        /// </summary>
+        /// <returns>All interchanges</returns>
         public XElement GetTestData()
         {
             try
@@ -46,6 +48,10 @@ namespace WebService
                 return new XElement("Error", ex.Message);
             }
         }
+        /// <summary>
+        /// Gets all intercahnges from the XElement _interchanges
+        /// </summary>
+        /// <returns>All interchanges</returns>
         public XElement GetAllInterchanges()
         {
             try
@@ -57,15 +63,20 @@ namespace WebService
                 return new XElement("Error", ex.Message);
             }
         }
-
+        /// <summary>
+        /// Gets all interchanges who matches the given ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>All interchanges which contain the given ID</returns>
         public XElement FilterByInterchangeID(int id)
         {
             try
             {
-                XElement interchangeByID = new XElement("InterchangeID" + id,
-                                 (from td in _testData.Elements("Interchange").Elements("MessageRoutingAddress")
-                                  where (int)td.Element("InterchangeRef") == id
-                                  select td));
+                XElement interchangeByID = new XElement("Interchanges",
+                    (from i in _interchanges.Elements("Interchange")
+                     from td in i.Elements("MessageRoutingAddress")
+                     where (int)td.Element("InterchangeRef") == id
+                     select i));
 
                 return interchangeByID;
             }
@@ -74,13 +85,19 @@ namespace WebService
                 return new XElement("Error", ex.Message);
             }
         }
+        /// <summary>
+        /// Finds the node which matches the input node name
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns>XElement containing matching nodes and their value</returns>
         public XElement FilterByInterchangeNode(string node)
         {
             try
             {
                 XElement interchangeByNode = new XElement(node,
-                    (from td in _testData.Descendants(node)
-                     select td));
+                    (from td in _interchanges.Descendants(node)
+                     group td by td.Value into tdgroups
+                     select tdgroups.First()));
 
                 return interchangeByNode;
             }
@@ -89,36 +106,45 @@ namespace WebService
                 return new XElement("Error", ex.Message);
             }
         }
+        /// <summary>
+        /// Finds the node and node value after the given input ID and node name.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="node"></param>
+        /// <returns>A XElement containing the node and it's node value. </returns>
         public XElement FilterByInterchangeIDAndNode(int id, string node)
         {
             try
             {
                 XElement interchangeByIDNode = new XElement("InterchangeforIDandNode",
-                                    (from td in _testData.Elements("Interchange")
+                                    (from td in _interchanges.Elements("Interchange")
                                      where (int)td.Element("MessageRoutingAddress").Element("InterchangeRef") == id
-                                     select td.Descendants(node)));
+                                     select td.Descendants(node).FirstOrDefault()));
 
-                XElement onexElement = new XElement("Result",
-                                           new XElement(node, interchangeByIDNode.Element(node).Value));
-
-                return onexElement;
+                return interchangeByIDNode;
             }
             catch (Exception ex)
             {
                 return new XElement("Error", ex.Message);
             }
         }
+        /// <summary>
+        /// Gets the interchanges which contains the input node with the same node value. 
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="value"></param>
+        /// <returns>The iterchanges which contain <node>value</node> as child node. </returns>
         public XElement FilterByInterchangeNodeValue(string node, string value)
         {
             try
             {
-                XElement givenInfo = new XElement(node, value); // exemepl ser ut: <Name>Sten Frisk</Name>"
+                XElement givenInfo = new XElement(node, value);
 
                 XElement interchangeByNodeValue = new XElement("interchangeByNodeValue",
-                            (from td in _testData.Elements("Interchange")
-                             from n in td.Descendants(node)
-                             where n.Value == value
-                             select td).Distinct());
+                                           (from td in _interchanges.Elements("Interchange")
+                                            from n in td.Descendants(node)
+                                            where n.Value == value
+                                            select td).Distinct());
 
                 return interchangeByNodeValue;
 
@@ -128,7 +154,6 @@ namespace WebService
                 return new XElement("Error", ex.Message);
             }
         }
-
-
     }
 }
+
