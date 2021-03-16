@@ -7,6 +7,7 @@ using System.Xml.Linq;
 
 namespace Lab2.PG6
 {
+    //hej
     class Program
     {
         static int givenID;
